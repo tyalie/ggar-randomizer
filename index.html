@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script>
+      const GGAR_BASE_URL = "https://www.gogetaroomie.com/";
+
+      function set_message(html) {
+        window.message = html;
+        if (window.p_info != undefined)
+          window.p_info.innerHTML = html;
+      }
+
+      function rand(items) {
+        // from https://stackoverflow.com/a/23976260
+        // "|" for a kinda "int div"
+        return items[items.length * Math.random() | 0];
+      }
+
+      function data_loaded(data) {
+        window.data = data;
+        const rkey = rand(Object.keys(data));
+        let url = new URL(data[rkey], GGAR_BASE_URL).href;
+        location.href = url;
+        set_message(`finished loading. Redirecting to comic '${rkey}'. Click <a href=${url}>here</a> if not`);
+      }
+
+      fetch("./comics.json")
+        .then(reponse => reponse.json())
+        .then(data_loaded)
+        .catch(err => set_message(`Error: ${err}`) )
+
+      addEventListener("pageshow", (event) => {data_loaded(window.data)});
+    </script>
+  </head>
+  <body>
+    <p id="info">Loading...</p>
+    <script>
+      let _p_info = document.getElementById("info");
+      if (window.message != undefined)
+        _p_info.innerHTML = window.message;
+      window.p_info = _p_info;
+    </script>
+  </body>
+</html>
