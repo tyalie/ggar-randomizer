@@ -38,6 +38,9 @@ copy(JSON.stringify(data, null, 2));
 
 Paste the result in a file named `comics.json`.
 
+### Deploy
+
+Deploy using GitHub Pages
 
 [1]: https://www.gogetaroomie.com/comic/archive
 [2]: gogetaroomie.com
